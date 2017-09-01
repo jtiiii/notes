@@ -1,8 +1,8 @@
 # Javascript 再学习
 
-由于工作中也渐渐开始接触一些前端需求的功能。但是自身本身是专注于后台开发的。对于前端也不是很熟。但觉得自己前端开发效率很低，特此再开一次javascript学习计划
+由于工作中也渐渐开始接触一些前端需求的功能。但是自身本身是专注于后台开发的。对于前端也不是很熟。但觉得自己前端开发效率很低，特此再开一次javascript学习计划。主要就是补充自己欠缺的部分知识。并非是完整的
 
-笔记内容摘自泽卡斯（Zakas. Nicholas C.）. JavaScript高级程序设计(第3版) (图灵程序设计丛书) . 人民邮电出版社. Kindle 版本. 
+笔记内容摘自泽卡斯（Zakas.NicholasC.）.JavaScript高级程序设计(第3版)(图灵程序设计丛书).人民邮电出版社.Kindle版本.
 
 先从基本数据开始吧。感觉还是有点模糊：
 
@@ -139,8 +139,10 @@ var num1 = 0x1Ae; //有效，解析为430
   }
   //常规情况下哪怕是以5为结尾的数值，永远不要去测试浮点数值
   ```
-  
+
+
 + 数值范围
+
   Number.MAX_VALUE(最大值) -- 一般浏览器中为1.7976931348623157e+308
   Number.MIN_VALUE(最小值) -- 一般浏览器中为5e-24
 
@@ -171,13 +173,13 @@ var num1 = 0x1Ae; //有效，解析为430
   alert(isNaN("test")); //true
   ```
 
-  > isNaN()也适用于对象，会首先调用对象的valueof()方法进行判断，如果返回true，在调用toString()方法进行判断。
+  > isNaN()也适用于对象，会首先调用对象的valueOf()方法进行判断，如果返回true，在调用toString()方法进行判断。
   >
   > 对于对象操作的isNaN()可以解释成如下：
   >
   > ```javascript
   > function isNaN(object){
-  >     if(isNaN(object.valueof())){
+  >     if(isNaN(object.valueOf())){
   >       return isNaN(object.toString());
   >     }
   >   return false;
@@ -213,13 +215,13 @@ var num1 = 0x1Ae; //有效，解析为430
   > Number(); //0
   > ```
   >
-  > 如果转化的是对象，则调用valueof的方法，若转化为NaN在调用toString();
+  > 如果转化的是对象，则调用valueOf的方法，若转化为NaN在调用toString();
   >
   > 可以解释成如下：
   >
   > ```javascript
   > function Number(object){
-  >   var result = Number(object.valueof());
+  >   var result = Number(object.valueOf());
   >   if(isNaN(result){return Number(object.);}
   >   return result;
   > }
@@ -308,5 +310,181 @@ alert(text); //This is the letter sigma: Σ.
 alert(text.length); //28
 ```
 
-ECMAScript 中的 字符串 是 不可 变的， 也就是说， 字符串 一旦 创建， 它们 的 值 就不 能改变。 要 改变 某个 变量 保存 的 字符串， 首先 要 销毁 原来 的 字符串， 然后 再用 另一个 包含 新 值 的 字符串 填充 该 变量，
+ECMAScript中的字符串是不可变的，也就是说，字符串一旦创建，它们的值就不能改变。要改变某个变量保存的字符串，首先要销毁原来的字符串，然后再用另一个包含新 值的字符串填充该变量。
+
+**toString()**方法
+
+Number，Boolean，Object和String都有toString()方法，但undefined和null没有。
+
+数值调用toString()方法的时候，默认情况下为返回十进制，但是可以设置基数为参数来控制输出二进制，八进制，十六进制，乃至其他任意有效进制格式表示的字符串值。
+
+```javascript
+var num = 43;
+num.toString(); //"43"
+num.toString(2); //"101011"
+num.toString(16); //"2b"
+
+var flag = true;
+flag.toString();//"true"
+
+```
+
+对于null和undefined而言，在不知道要转换的值是不是null或者undefined情况下还是可以使用String()来转型。
+
+String()遵循以下规则：当有toString()方法时候，调用toString()，没有则返回结果。
+
+```javascript
+var test = undefined;
+String(test); //"undefined"
+var test2 = null;
+String(test2); //"null"
+```
+
+> 要把某个值转化为字符串你也可以使用“+”操作符
+>
+> ```javascript
+> undefined+'|sdf'; //"undefined|sdf"
+> null+"";//"null|sdf"
+> ```
+
+
+
+## Object
+
+ECMAScript中的对象其实就是一组数据和功能的集合。对象可以通过执行new操作符后跟要创建的对象类型的名称来创建。而创建Object类型的实例并为其添加属性和（或）方法，就可以创建自定义对象。
+
+
+
+Object的每个实例都具有下列属性和方法。
+
++ Constructor：保存着用于创建当前对象的函数。对于前面的例子而言，构造函数（constructor）就是Object()。
++ hasOwnProperty(propertyName)：用于检查给定的属性在当前对象实例中（而不是在实例的原型中）是否存在。其中，作为参数的属性名（propertyName）必须以字符串形式指定（例如：o.hasOwnProperty("name")）。
++ isPrototypeOf(object)：用于检查传入的对象是否是另一个对象的原型。
++ propertyIsEnumerable(propertyName)：用于检查给定的属性是否能够使用for-in语句（本章后面将会讨论）来枚举。与hasOwnProperty()方法一样，作为参数的属性名必须以字符串形式指定。
++ toLocaleString()：返回对象的字符串表示，该字符串与执行环境的地区对应。
++ toString()：返回对象的字符串表示。valueOf()：返回对象的字符串、数值或布尔值表示。通常与toString()方法的返回值相同。
+
+
+
+# 操作符
+
+## +
+
+数值相加
+
+字符串与任意数据相加都为字符串
+
+```javascript
+1 + 1 = 2;
+1 + "1" = "11";
+"test" + undefined; // "test|undefined"
+"test" + null; //"test|null"
+"test" + 1; //"test1"
+"test" + new Date(); //"test|Fri Sep 01 2017 15:50:23 GMT+0800 (中国标准时间)"
+```
+
+## -
+
+数值相减
+
+与“+”不同现将所需的计算值调用Number()转型。故转换为NaN的计算结果也为NaN
+
+```javascript
+3 - 1 ; //2
+"1" - "2b"; //NaN
+3 - "1"; //2
+3 - undefined; //NaN
+```
+
+
+
+## ++
+
+自加1，计算结果和“+”相同
+
+```javascript
+var test = 1;
+test++; //1 先返回test，再自增
+alert(test); //2
+
+var test2 = 1;
+++test2; //2 先自增再返回test
+alert(test2);//2
+```
+
+
+
+## --
+
+自减一，计算结果和“-”相同，计算结果为数值的时候，计算顺序和“++”相同。
+
+ ```javascript
+var test1 = "test";
+test--;//NaN
+var test2 = "1";
+test--; //1
+--test; //0
+var o = {valueOf:function(){return -1;}};
+o--;//-1
+--o;//-3
+ ```
+
+
+
+# Boolean操作符
+
+boolean操作符使用的时候都会调用Boolean()方法
+
+## &&（AND）
+
+略
+
+```javascript
+//undefined
+true && undefined; //undefined
+false && undefined; //false
+undefined && undefined; //undefined
+//null
+true && null; //null
+false && null; //false
+null && null; //null
+//NaN
+true && NaN; //NaN
+false && NaN; //false
+NaN && NaN; //NaN
+```
+
+
+
+## ||（OR）
+
+略
+
+```javascript
+//undefined
+undefined || true; //true
+undefined || false; //undefined
+undefined || undefined; //undefined
+//null
+true || null; //true
+false || null;//null
+null || null; //null
+//NaN
+true || NaN; //true
+false || NaN; //NaN
+NaN || NaN;//NaN
+```
+
+
+
+## !（NOT）
+
+略
+
+```javascript
+!undefined; //true
+!null; //true
+!NaN; //true
+
+```
 

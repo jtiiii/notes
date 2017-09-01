@@ -2,9 +2,13 @@
 
 由于工作中也渐渐开始接触一些前端需求的功能。但是自身本身是专注于后台开发的。对于前端也不是很熟。但觉得自己前端开发效率很低，特此再开一次javascript学习计划
 
+笔记内容摘自泽卡斯（Zakas. Nicholas C.）. JavaScript高级程序设计(第3版) (图灵程序设计丛书) . 人民邮电出版社. Kindle 版本. 
+
 先从基本数据开始吧。感觉还是有点模糊：
 
 
+
+# JavaScript数据类型
 
 ## Undefined
 
@@ -135,11 +139,174 @@ var num1 = 0x1Ae; //有效，解析为430
   }
   //常规情况下哪怕是以5为结尾的数值，永远不要去测试浮点数值
   ```
-
-  ​
-
+  
 + 数值范围
-
   Number.MAX_VALUE(最大值) -- 一般浏览器中为1.7976931348623157e+308
-
   Number.MIN_VALUE(最小值) -- 一般浏览器中为5e-24
+
+  如果超出了最大值和最小值，就会成为**Infinity**和**-Infinity**(正无穷和负无穷)。而Infinity是无法被计算的。如果一段计算代码执行过程中得出了Infinity则后续计算会错误。但是可以被判断。使用**isFinite()**函数来判断这个值是否在范围内。
+
+  ```javascript
+  var result = Number.MAX_VALUE * 2;
+  alert(isFinite(result)); //false
+  ```
+
+  > 访问Number.NEGATIVE_INFINITY 和 Number.POSITIVE_INFINITY也可以得到-Infinity和Infinity
+
++ **NaN**
+
+  NaN，即非数值（Not a Number）。NaN被用来代表没有计算结果的值（比如10/0这样计算），这样在计算的时候不会爆出错误了，继续执行下面的代码。
+
+  任何涉及NaN的操作都会返回NaN。NaN与任何值都不相等，包括NaN本身，针对这个特点，ECMAScript 定义了isNaN()函数：**所有不能转化为数值的数被返回为true**
+
+  ```javascript
+  var a = 1;
+  var b = a / 0;
+  alert(b); //NaN
+  alert(a == NaN); //false
+  alert(b == NaN); //false
+  alert(isNaN(a)); //false
+  alert(isNan("10")); //false
+  alert(isNaN(b)); //true
+  alert(isNaN("test")); //true
+  ```
+
+  > isNaN()也适用于对象，会首先调用对象的valueof()方法进行判断，如果返回true，在调用toString()方法进行判断。
+  >
+  > 对于对象操作的isNaN()可以解释成如下：
+  >
+  > ```javascript
+  > function isNaN(object){
+  >     if(isNaN(object.valueof())){
+  >       return isNaN(object.toString());
+  >     }
+  >   return false;
+  > }
+  > ```
+
++ 数值转换
+
+  数值转换有3个函数：Number()、parseInt()和parseFloat()
+
+  Number() 可以用于任何数据
+
+  parseInt()和parseFloat()则是专门用于把字符换成数值
+
+  > **Number()转换规则如下**
+  >
+  > ```javascript
+  > //Boolean 转化为 1 和 0
+  > Number(true); //1
+  > Number(false); //0
+  > //null 转为 0
+  > Number(null); //0
+  > //往后不能转化为数字的字符串和undefined 转化为 NaN
+  > Number(undefined); //NaN
+  > Number(10); //10
+  > Number("10"); //10
+  > Number("010"); //10
+  > Number("10A"); //NaN
+  > //转换支持八进制十六进制
+  > Number(070); //56
+  > Number(0xf); //15
+  > //空 返回0
+  > Number(); //0
+  > ```
+  >
+  > 如果转化的是对象，则调用valueof的方法，若转化为NaN在调用toString();
+  >
+  > 可以解释成如下：
+  >
+  > ```javascript
+  > function Number(object){
+  >   var result = Number(object.valueof());
+  >   if(isNaN(result){return Number(object.);}
+  >   return result;
+  > }
+  > ```
+  >
+  > **parseInt()转换规则如下**
+  >
+  > ```javascript
+  > //parseInt()只用于转换字符串为整数
+  >
+  > //忽略非数字字符后的所有内容
+  > parseInt("21sdbs123df"); //21
+  > //葫芦也开头空格
+  > paseeInt("  123"); //123
+  > //空为 NaN
+  > parseInt(""); //NaN
+  > //忽略小数点
+  > parseInt("21.2");//21
+  >
+  > //支持八进制和十六进制
+  > parseInt("070"); //56 
+  > parseInt("0xA"); //10
+  > /*
+  > 不过在ECMAScript 5中已经去除了八进制解析能力
+  > 主要原因是前导0不再被进制解析使用。
+  > 不过可以指定基数来指定解析指定进制,解析失败则返回NaN
+  > */
+  > parseInt("70",2); //NaN
+  > parseInt("10",2); //2
+  > parseInt("70",8); //56
+  > parseInt("56",10); //56
+  > parseInt("a",16); //10
+  > //大多数情况下我们要解析的的是10进制，因此为了保证稳定性，第二基数一般是必须的
+  > ```
+  >
+  > **parseFloat()转换规则**
+  >
+  > parseFloat与parseInt类似。不过相比parseInt，pareseFloat始终会忽略前导0
+  >
+  > 而且只会解析十进制，但是能解析科学计数法
+  >
+  > ```javascript
+  > parseFloat("22.5"); //22.5
+  > parseFloat("1234sdfsd"); //1234
+  > //无法解析八进制与十六进制，统一当做十进制处理
+  > parseFloat("0xa"); //0
+  > //忽略第二个小数点
+  > parseFloat("22.5.34"); //22.5
+  > //能解析科学计数法
+  > parseFloat("3.125e7"); //31250000
+  > ```
+
+
+
+## String
+
+String类型由多个16位的Unicode字符组成的字符序列，即字符串。
+
+字符可由 （''）（ ""）单引号或者双引号表示：
+
+```javascript
+var str1 = "str1";
+var str2 = 'str2';
+//不过双引号开头的必须以双引号结尾，单引号同理
+```
+
+转义序列：
+
+| 字面量    | 含义                       |
+| ------ | ------------------------ |
+| \n     | 换行                       |
+| \t     | 制表                       |
+| \b     | 空格                       |
+| \r     | 回车                       |
+| \f     | 进纸                       |
+| \\\    | 代表字符“\”                  |
+| \'     | 代表字符“ ' ”                |
+| \"     | 代表字符“ " ”                |
+| \xnn   | 以十六进制代码nn表示一个字符          |
+| \unnnn | 以十六进制代码nnnn表示一个Unicode字符 |
+
+```javascript
+var text = "This is the letter sigm\x61: \u03a3.";
+alert(text); //This is the letter sigma: Σ.
+//unicode字符长度算1个,length方法并不能返回精确的字节数
+alert(text.length); //28
+```
+
+ECMAScript 中的 字符串 是 不可 变的， 也就是说， 字符串 一旦 创建， 它们 的 值 就不 能改变。 要 改变 某个 变量 保存 的 字符串， 首先 要 销毁 原来 的 字符串， 然后 再用 另一个 包含 新 值 的 字符串 填充 该 变量，
+

@@ -4,7 +4,7 @@ svn和git都是目前国内常用的版本控制软件。根据不同的开发�
 
 git早就支持对svn的操作，因此git和svn互相迁移基本使用git就够了
 
-```shell
+```bash
 #git中的 git svn为主要使用命令
 $git svn
 ```
@@ -21,7 +21,7 @@ $git svn
 
 1. 直接克隆
 
-   ```shell
+   ```bash
    #一步到位
    #git svn clone [url]
    $git svn clone http://****/sicilin-module
@@ -29,7 +29,7 @@ $git svn
 
 2. 合并原有git仓库
 
-   ```shell
+   ```bash
    #初始化并新增svn仓库地址
    #git svn init [url]
    $git svn init http://****/sicilin-module
@@ -52,7 +52,7 @@ $git svn
 
 
 
-```shell
+```bash
 #在git仓库中建立svn远程仓库地址
 $git svn init [url]
 #使用fetch 命令获取svn文件以及其版本号

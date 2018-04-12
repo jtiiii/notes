@@ -1,6 +1,10 @@
 #AbstractRoutingDataSource 解析
 
-Spring 的`spring-jdbc`模块提供了一个可以实现动态数据库的类`AbstractRoutingDataSource`。
+Spring 的`spring-jdbc`模块提供了一个可以实现切换数据库的类`AbstractRoutingDataSource`。
+
+很多动态数据源以及读写分离等技术实现都是在依据该类实现。
+
+
 
 ## 继承关系
 
@@ -8,7 +12,7 @@ Spring 的`spring-jdbc`模块提供了一个可以实现动态数据库的类`Ab
 
 ![](images/img1.png)
 
-由此可见`AbstractRoutingDataSource` 实际上是继承了`AbstarctDataSource`并实现了`DataSource`接口，因此我们只要写一个类继承它，就能作为一个数据源配置到程序当中去。
+由此可见`AbstractRoutingDataSource` 实际上是继承了`AbstarctDataSourcel`类，而间接实现了`DataSource`接口，因此我们只要写一个类继承它，就能作为一个数据源配置到程序当中去。
 
 
 
@@ -344,7 +348,9 @@ public void afterPropertiesSet() {
 }
 ```
 
-从上面中我们可以看到，用于切换数据源的`resolvedDataSources`是`Map`对象是由`this.targetDataSources`处理后填充的。
+从上面中我们可以看到，用于切换数据源的`resolvedDataSources`是`Map`对象是提取`this.targetDataSources`的内容处理后填充的。
+
+> 如果我们想手动重置`this.resolvedDataSources`内容，修改好`this.targetDataSources`属性后只要再执行一次`afterPropertiesSet()`方法即可。
 
 然后对于`this.targetDataSources`却没有任何处理，只有`setter`方法，连`getter`方法都没有。看来是由Spring实例该Bean我们外部手动注入。
 
@@ -417,6 +423,18 @@ protected DataSource resolveSpecifiedDataSource(Object dataSource) throws Illega
 当是`DataSource`实例则不做任何处理，若是`String`则通过`dataSourceLookup`对象获得。
 
 到此处，可以不用深究`dataSourceLookup`的来源了。毕竟，这只是个Abstract抽象类。可以由我们实例化来注入`targetDataSources`属性来确保`Object dataSource`参数一定是`DataSource`实例就行。
+
+
+
+关于`dataSourceLookup`属性：
+
+```java
+private DataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+```
+
+`AbstractRoutingDataSource`则是直接赋予了一个新的`JndiDataSourceLookup`实例。
+
+具体`DataSourceLookup`的作用以及详解暂不做分析。
 
 
 

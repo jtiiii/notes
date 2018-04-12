@@ -1,0 +1,49 @@
+# Spring-Bean
+
+文章内容来自：https://blog.csdn.net/benhuo931115/article/details/74611464
+
+##beans包的层级结构
+
+beans包中的各个源码包的功能如下
+
+- src/main/java 用于展现Spring的主要逻辑
+- src/main/resources 用于存放系统的配置文件
+- src/test/java 用于对主要逻辑进行单元测试
+- src/test/resources 用于存放测试用的配置文件
+
+
+
+## 核心类介绍
+
+###DefaultListableBeanFactory
+
+XmlBeanFactory继承自DefaultListableBeanFactory，而DefaultListableBeanFactory是整个bean加载的核心部分，是Spring注册及加载bean的默认实现，而对于XmlBeanFactory与DefaultListableBeanFactory不同的地方其实是在XmlBeanFactory中使用了自定义的XML读取器XmlBeanDefinitionReader，实现了个性化的BeanDefinitionReader读取，DefaultListableBeanFactory继承了AbstractAutowireCapableBeanFactory并实现了ConfigURableListableBeanFactory以及BeanDefinitionRegistry接口。
+
+以下是ConfigURationListableBeanFactory的层次结构图以下相关类图
+
+![](images/img2.png)
+
+类图中各个类的作用：
+
+- AliasRegistry：定义对alias的简单增删改等操作
+- SimpleAliasRegistry：主要使用map作为alias的缓存，并对接口AliasRegistry进行实现
+- SingletonBeanRegistry：定义对单例的注册及获取
+- BeanFactory：定义获取bean及bean的各种属性
+- DefaultSingletonBeanRegistry：对接口SingletonBeanRegistry各函数的实现
+- HierarchicalBeanFactory：继承BeanFactory，也就是在BeanFactory定义的功能的基础上增加了对parentFactory的支持
+- BeanDefinitionRegistry：定义对BeanDefinition的各种增删改操作
+- FactoryBeanRegistrySupport：在DefaultSingletonBeanRegistry基础上增加了对FactoryBean的特殊处理功能
+- ConfigurableBeanFactory：提供配置Factory的各种方法
+- ListableBeanFactory：根据各种条件获取bean的配置清单
+- AbstractBeanFactory：综合FactoryBeanRegistrySupport和ConfigurationBeanFactory的功能
+- AutowireCapableBeanFactory：提供创建bean、自动注入、初始化以及应用bean的后处理器
+- AbstractAutowireCapableBeanFactory：综合AbstractBeanFactory并对接口AutowireCapableBeanFactory进行实现
+- ConfigurableListableBeanFactory：BeanFactory配置清单，指定忽略类型及接口等
+- DefaultListableBeanFactory：综合上面所有功能，主要是对Bean注册后的处理
+
+
+
+
+
+##Bean 的生命周期
+

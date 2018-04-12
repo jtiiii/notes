@@ -424,17 +424,17 @@ protected DataSource resolveSpecifiedDataSource(Object dataSource) throws Illega
 
 到此处，可以不用深究`dataSourceLookup`的来源了。毕竟，这只是个Abstract抽象类。可以由我们实例化来注入`targetDataSources`属性来确保`Object dataSource`参数一定是`DataSource`实例就行。
 
-
-
-关于`dataSourceLookup`属性：
-
-```java
-private DataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
-```
-
-`AbstractRoutingDataSource`则是直接赋予了一个新的`JndiDataSourceLookup`实例。
-
-具体`DataSourceLookup`的作用以及详解暂不做分析。
+> 关于`dataSourceLookup`属性：
+>
+> ```java
+> private DataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+> ```
+>
+> `AbstractRoutingDataSource`则是直接赋予了一个新的`JndiDataSourceLookup`实例。
+>
+> 看来，在配置`targetDataSources`属性时候，用`String`类型时候，是从JNDI接口中获取。
+>
+> 如果不用使用J2EE提供的数据源，就可以忽略了。
 
 
 

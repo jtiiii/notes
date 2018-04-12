@@ -47,7 +47,7 @@ mvn versions:revert
 E.g.
 
 ```bash
-mvn version:commit
+mvn versions:commit
 ```
 
 修改版本号的确定操作

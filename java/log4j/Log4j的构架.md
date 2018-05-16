@@ -196,8 +196,7 @@ Log4j 1.x 和logback 都拥"等级继承(Level Inheritance)"的概念。在log4j
 >
 > ```java
 > Logger logger = LogManager.getLogger("test");
-> logger.info("This is test string."); //这是logger event
-> logger.
+> logger.info("This is test string."); //这是logEvent,输出“This is test string.”是等级为info的logEvent
 > ```
 >
 > 而横向的LoggerConfig level指的是类似如下配置文件中的Logger
@@ -208,7 +207,7 @@ Log4j 1.x 和logback 都拥"等级继承(Level Inheritance)"的概念。在log4j
 >
 > 那么，我有一个疑问？Java代码中的logger 和配置文件中的logger是不是同一个呢？
 >
-> 我的猜想是应该是同一个。在程序启动的时候。log4j优先读取配置文件，先根据配置文件创建好相应的logger，然后Java代码中从`LogManager.getLogger`方法获取的就是通过配置文件创建好的Logger，若配置文件中没有预先配置的logger，则会创建一个新的Logger并使用其父级的LoggerConfig
+> 我的猜想是应该是同一个。在程序启动的时候。log4j优先读取配置文件，先根据配置文件创建好相应的logger，然后Java代码中从`LogManager.getLogger`方法获取的就是通过配置文件创建好的Logger，若配置文件中没有预先配置的logger，则会创建一个新的Logger并使用其父级的LoggerConfig。
 
 
 

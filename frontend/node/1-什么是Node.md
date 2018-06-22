@@ -7,13 +7,14 @@ Example:
 Hello-world.js:
 
 ```javascript
-
+exports.printMsg = function(){console.info("Hello World!");};
 ```
 
-
+使用node执行
 
 ```shell
-$node example.js
+$node Hello-world.js
+#// Hello World!
 ```
 
 
@@ -41,3 +42,8 @@ server.listen(port, hostname, () => {
 });
 ```
 
+
+
+Node是将Javascript完全脱离浏览器执行的的一个js环境，node实现了可以用js来做后端。不过node并不能做前端，但可以用来做构建前端的工具。
+
+Node和前端几乎没什么关系。

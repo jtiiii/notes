@@ -4,7 +4,7 @@
 
 但是npm版本更新比node快的多，最好经常执行更新操作来更新npm
 
-##1. 安装 npm 和 node
+## 1. 安装 npm 和 node
 
 直接去[node官网下载地址](https://nodejs.org/en/download/)下载对应系统的node安装包安装即可。
 
@@ -176,7 +176,17 @@ $npm adduser
 
 
 
-##13.发布[npmjs.com]
+## 13.登陆[npmjs.com]
+
+```shell
+$npm login
+```
+
+登录到npmjs
+
+
+
+##14.发布[npmjs.com]
 
 ```shell
 $npm publish [option]
@@ -188,3 +198,22 @@ $npm publish [option]
 
 + `--tag` 指定发布标签，默认为`latest`,若要指定为测试版，则`--tag beta`
 
+
+
+## 15.打开主页
+
+```shell
+$npm home
+```
+
+如果该包再`package.json`中配置了`homepage`选项的话，该指令会打开homepage中的页面
+
+
+
+## 16.优化
+
+```shell
+$npm prune
+```
+
+该命令可以查看已经安装在`node_modules`却在`package.json`中未被引用的模块

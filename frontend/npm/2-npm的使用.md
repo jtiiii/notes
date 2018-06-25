@@ -42,7 +42,7 @@ $n latest
 有CLI的时候，可以使用下面命令：
 
 ```shell
-$npm search [package-name]
+$npm search <package-name>
 ```
 
 
@@ -71,4 +71,120 @@ $npm init [options]
 + `-y` 快速默认初始化
 
 
+
+## 6.更新项目
+
+```shell
+$npm update [option]
+```
+
+**option**
+
++ `-g` 全局模块
+
+1. 先到远程仓库查询最新版本
+2. 然后对比本地版本，如果本地版本不存在，或者远程版本较新
+3. 查看 `package.json` 中对应的语义版本规则
+4. 如果当前新版本符合语义规则，就更新，否则不更新
+
+
+
+## 7.查看依赖更新
+
+```shell
+$npm outdated [option]
+```
+
+**option**
+
++ `-g` 全局模块
++ `--depth=?` 查看依赖深度
+
+E.g.
+
+```shell
+$npm outdated
+Package  Current  Wanted  Latest  Location
+webpack   4.12.0  4.12.1  4.12.1  vue-component
+```
+
+
+
+## 8.安装模块
+
+```shell
+$npm install [option] <package>
+```
+
+**option**
+
++ `-g` 是否全局安装
+
+
+
+## 9.卸载模块
+
+```shell
+$npm uninstall [option] <package>
+```
+
+**option**
+
+- `-g` 是否卸载全局模块
+
+
+
+## 10.运行脚本
+
+```shell
+$npm run <script>
+```
+
+`run`用于运行`package.json`中`scripts`属性的指令
+
+E.g.
+
+package.json:
+
+```json
+{
+    "scripts": {
+        "build": "webpack"
+    }
+}
+```
+
+则输入`npm run build`的时候会执行`webpack`脚本
+
+
+
+## 11.查看项目信息
+
+```shell
+$npm info <package>
+```
+
+
+
+## 12.添加用户[npmjs.com]
+
+```shell
+$npm adduser
+```
+
+添加一个npmjs.com上的用户，可用于发布
+
+
+
+##13.发布[npmjs.com]
+
+```shell
+$npm publish [option]
+```
+
+将该包发布到npmjs.com供别人下载使用
+
+**option**
+
++ `--tag` 指定发布标签，默认为`latest`,若要指定为测试版，则`--tag beta`
 

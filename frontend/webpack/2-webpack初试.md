@@ -165,6 +165,8 @@ You can also set it to 'none' to disable any default behavior. Learn more: https
 
 ## 使用source-map进行debug
 
+<span style="color: #a94442;background-color: #f2dede;border-color: #ebccd1;">**注意：该段内容请勿用在正式环境上！**</span>
+
 但是这有一个问题，打包之后的代码根本不适合浏览器调试，没事，webpack 还有一个功能。
 
 配置`webpack.confg.js` 添加`devtool`选项：

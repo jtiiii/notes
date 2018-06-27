@@ -39,13 +39,40 @@ $npm install webpack webpack-cli --save-dev
 
 
 
-## 配置package.json
-
-`package.json`文件中添加一条`scripts`指令：` scripts: {"build" : "webpack --config webpack.config.js"}`
+## 配置 package.json
 
 **package.json**
 
-![](images/img3.png)
+```diff
+  {
+    "name": "demo-webpack",
+    "version": "1.0.0",
+    "description": "",
++   "private": true,
+-  	"main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
++     "build": "webpack --config webpack.config.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "clean-webpack-plugin": "^0.1.19",
+      "css-loader": "^0.28.11",
+      "file-loader": "^1.1.11",
+      "style-loader": "^0.21.0",
+      "webpack": "^4.12.1",
+      "webpack-cli": "^3.0.8",
+      "webpack-dev-server": "^3.1.4"
+    }
+  }
+
+```
+
+去掉`main`是因为这个其实并不是node项目，没有主执行文件。
+
+增加`private`是因为防止项目被发布到npmjs上去，这只是一个用于webpack打包的，并不是可用于发布的单模块项目。
 
 此时若执行`npm run build`则会执行`webpack --config webpack.config.js`命令其中`webpack.config.js`就是配置webpack配置文件
 

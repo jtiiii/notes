@@ -4,7 +4,7 @@
 
 
 
-##man 查看指令文档手册
+## man 查看指令文档手册
 
 `man [option] [name]`
 
@@ -16,11 +16,17 @@ E.g.
 
 `man git`
 
+> 当要导出内容的时候，比如 `man tree > tree.txt` 时，查看内容混乱或者乱码。
+>
+> 解决方法: 再加入`col -b`操作
+>
+> E.g.  `tree man | col -b > tree.text`
 
 
 
 
-##ls 展示目录文件
+
+## ls 展示目录文件
 
 `ls [option] [path]`
 
@@ -48,7 +54,7 @@ E.g.
 
 
 
-##cd 跳转/切换工作目录
+## cd 跳转/切换工作目录
 
 `cd`
 
@@ -58,7 +64,7 @@ E.g.
 
 
 
-##cp 复制文件
+## cp 复制文件
 
 `cp [sourceFile] [targetFile]`
 
@@ -72,7 +78,7 @@ E.g.
 
 
 
-##mv 移动文件
+## mv 移动文件
 
 `mv [sourceFile] [targetFile]`
 
@@ -93,4 +99,19 @@ E.g.
 E.g.
 
 `mkdir /home/myfolder` 在/home路径下创建myfolder文件夹
+
+
+
+## col 过滤控制字符
+
+在使用`>` 或者 `>>` 输出到内容文件时候，多余的控制字符会导致内容乱码，`col` 命令能过滤这些字符
+
+`col [option]`
+
+**option**
+
++ `-b` 过滤掉所有控制字符，包括RLF和HRLF
++ `-f` 过滤RLF字符
++ `-x` 过滤以多个空格表示跳格的字符
++ `-l<缓冲区列数>` 预设的内存缓冲区有128列，用户可以自行指定缓冲区的大小
 

@@ -537,7 +537,7 @@ vue.bundle.js.map  304 KiB    main  [emitted]  main
 
 
 
-#关于vue的构建
+# 关于vue的构建
 
 现在修改`main.js`，`index.html`的内容
 
@@ -724,6 +724,8 @@ vue.bundle.js.map  304 KiB    main  [emitted]  main
 可以看出上述渲染所依赖的内容和优先级依次为`render`,`template`,`outerHTML`
 
 > 独立构建支持`template`选项，而运行时只支持`render`选项
+>
+> **注意：render的执行是直接把整个el进行替换了，生成$el之后再绑定数据**
 
 下面我们通过创建三个不同的 Vue 实例来验证一下：
 

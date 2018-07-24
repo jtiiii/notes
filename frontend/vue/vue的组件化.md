@@ -2,13 +2,15 @@
 
 [vue官文](https://cn.vuejs.org/v2/guide/)
 
-一般VUE的知识点因为已经有很棒的官文（中文）了，所以不写了。这里主要是写关于vue高阶应用：模块组件化的使用。
+> 一般VUE的知识点因为已经有很棒的官文（中文）了，所以不写了。这里主要是写关于vue高阶应用：模块组件化的使用。
+>
+> 阅读此文章需要有对[npm](../npm),[webpack](../webpack),[module](../javascript/module.md)一定的认识。
+>
+> 首先，我们先了解.vue文件。官网中已经有对.vue文件的解释了。
 
-阅读此文章需要有对[npm](../npm),[webpack](../webpack),[module](../javascript/module.md)一定的认识。
+**另外此笔记是入门了解vue组件化的内容，该篇内容并未用到vue-cli脚手架**
 
-首先，我们先了解.vue文件。官网中已经有对.vue文件的解释了。
-
-主要有3个部分组成
+`.vue`文件主要有3个部分组成
 
 + template
 + script

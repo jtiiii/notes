@@ -221,6 +221,10 @@ $npm prune
 
 ## npmjs.com - npm模块库
 
+> 用户注册得去npmjs.com网站上注册
+
+
+
 ### 添加用户[npmjs.com]
 
 ```shell

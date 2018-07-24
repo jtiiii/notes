@@ -76,7 +76,7 @@
 
   **./package.json**
 
-  > 将项目改为私有项目防止手误发布，并去除main，该项目为webpack项目非node可执行项目
+  > 将项目改为私有项目防止手误发布，并去除main，该项目为webpack项目非node可执行或可以引入的项目
   >
   > 新增`webpack`打包指令，`webpack.config.js`
 

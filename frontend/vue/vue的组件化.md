@@ -4,7 +4,7 @@
 
 一般VUE的知识点因为已经有很棒的官文（中文）了，所以不写了。这里主要是写关于vue高阶应用：模块组件化的使用。
 
-阅读此文章需要有对[npm](../npm),[webpack](../webpack)一定的认识。
+阅读此文章需要有对[npm](../npm),[webpack](../webpack),[module](../javascript/module.md)一定的认识。
 
 首先，我们先了解.vue文件。官网中已经有对.vue文件的解释了。
 
@@ -176,9 +176,7 @@
           <title>hello vue!</title>
       </head>
       <body>
-          <div id="hello">
-              <hello></hello>
-          </div>
+          <div id="hello"></div>
       </body>
       <script type="text/javascript" src="vue.bundle.js"></script>
   </html>
@@ -456,4 +454,315 @@ You can also set it to 'none' to disable any default behavior. Learn more: https
 ![](images/img1.png)
 
 如图vue渲染成功！
+
+但是，却并没有`vue`开发者模块并没有被启用。
+
+`vue`的`chrome`插件的说明如图:
+
+![](images/img2.png)
+
+> 意思是已经检测到该页面使用了`vue`，但是模式可能因为启用了**生产模式**或者被**作者禁用**导致开发者模式的`vue`工具失效。
+
+意思很明白了，我们在webpack打包的时候，没有设定`mode`。
+
+解决：在webpack.config.js中配置mode
+
+**./webpack.config.js**
+
+```diff
+  const VueLoaderPlugin = require('vue-loader/lib/plugin');
+  
+  module.exports = {
++     mode: 'development',
+      devtool: 'source-map',
+      entry: './src/main.js',
+      output: {
+          path: __dirname + '/dist',
+          filename: "vue.bundle.js"
+      },
+      module: {
+          rules: [
+              { test: /\.vue$/ , use: ['vue-loader']},
+              { test: /\.css$/ , use: ['style-loader','css-loader']}
+          ]
+      },
+      plugins: [
+          new VueLoaderPlugin()
+      ]
+  };
+```
+
+再次打包
+
+```shell
+IDE_Workspace/WebStorm/hello-vue                                                                    
+$npm run build
+
+> hello-vue@1.0.0 build /Users/.../Documents/IDE_Workspace/WebStorm/hello-vue
+> webpack --config webpack.config.js
+
+Hash: 84e2606c778c41d50acb
+Version: webpack 4.16.0
+Time: 1112ms
+Built at: 07/17/2018 9:43:23 PM
+            Asset     Size  Chunks             Chunk Names
+    vue.bundle.js  258 KiB    main  [emitted]  main
+vue.bundle.js.map  304 KiB    main  [emitted]  main
+[./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/scripts/hello.vue?vue&type=style&index=0&id=70153082&scoped=true&lang=css] ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./src/scripts/hello.vue?vue&type=style&index=0&id=70153082&scoped=true&lang=css 252 bytes {main} [built]
+[./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./src/scripts/hello.vue?vue&type=style&index=0&id=70153082&scoped=true&lang=css] ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./src/scripts/hello.vue?vue&type=style&index=0&id=70153082&scoped=true&lang=css 1.59 KiB {main} [built]
+[./node_modules/vue-loader/lib/index.js?!./src/scripts/hello.vue?vue&type=script&lang=js] ./node_modules/vue-loader/lib??vue-loader-options!./src/scripts/hello.vue?vue&type=script&lang=js 105 bytes {main} [built]
+[./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./src/scripts/hello.vue?vue&type=template&id=70153082&scoped=true] ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/scripts/hello.vue?vue&type=template&id=70153082&scoped=true 254 bytes {main} [built]
+[./node_modules/webpack/buildin/global.js] (webpack)/buildin/global.js 489 bytes {main} [built]
+[./src/main.js] 122 bytes {main} [built]
+[./src/scripts/hello.vue] 1.18 KiB {main} [built]
+[./src/scripts/hello.vue?vue&type=script&lang=js] 256 bytes {main} [built]
+[./src/scripts/hello.vue?vue&type=style&index=0&id=70153082&scoped=true&lang=css] 602 bytes {main} [built]
+[./src/scripts/hello.vue?vue&type=template&id=70153082&scoped=true] 214 bytes {main} [built]
+    + 8 hidden modules
+```
+
+可以看到之前的`WARNING`警告也消失了。
+
+打开`./dist/index.html`并调出开发者模式工具
+
+![](images/img3.png)
+
+可以看到`vue`的开发者模式工具也能正常查看使用了
+
+> 关于`webpack`的`mode`选项配置，更多选择与说明查看[官网](https://webpack.js.org/concepts/mode/)
+
+
+
+#关于vue的构建
+
+现在修改`main.js`，`index.html`的内容
+
+**./src/main.js**
+
+> 新增关于在浏览器环境下经常用到的渲染方式
+
+```diff
+  import Vue from 'vue';
+  import hello from './scripts/hello.vue';
+  
+  new Vue({
+      el: '#hello',
+      render: h => h(hello)
+  });
+  
++ Vue.component("test",{
++     template: '<span> test - span </span>'
++ });
++ new Vue({
++     el: '#test',
++     components: {
++         "hello": hello
++     },
++     data: {
++         message : 'from test - message : hello vue! hello world!'
++     }
++ });
+```
+
+**./dist/index.html**
+
+```diff
+  <!DOCTYPE html>
+  <html>
+      <head>
+          <title>hello vue!</title>
+      </head>
+      <body>
+          <div id="hello" ></div>
++         <div id="test">
++             {{ message }}
++             <hello></hello>
++             <test></test>
++         </div>
+      </body>
+      <script type="text/javascript" src="vue.bundle.js"></script>
+  </html>
+```
+
+执行`npm run build` 查看测试
+
+![](images/img4.png)
+
+提示错误：`[Vue warn]: You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.`
+
+发现正常情况下在浏览器中`<script ...>`使用的语句居然渲染失效了。
+
+这个问题就要从vue的构建模式来说明了
+
+在[官网](https://cn.vuejs.org/v2/guide/installation.html)就有关于这部分问题的内容：
+
+---
+
+> 以下内容为节选：
+>
+> ## 对不同构建版本的解释
+>
+> 在 [NPM 包的 `dist/` 目录](https://cdn.jsdelivr.net/npm/vue/dist/)你将会找到很多不同的 Vue.js 构建版本。这里列出了它们之间的差别：
+>
+> 下面的内容关于vue的构建理解和问题。
+>
+> |                               | UMD                | CommonJS              | ES Module          |
+> | ----------------------------- | ------------------ | --------------------- | ------------------ |
+> | **完整版**                    | vue.js             | vue.common.js         | vue.esm.js         |
+> | **只包含运行时版**            | vue.runtime.js     | vue.runtime.common.js | vue.runtime.esm.js |
+> | **完整版 (生产环境)**         | vue.min.js         | -                     | -                  |
+> | **只包含运行时版 (生产环境)** | vue.runtime.min.js | -                     | -                  |
+>
+> ### 术语
+>
+> - **完整版**：同时包含编译器和运行时的版本。
+> - **编译器**：用来将模板字符串编译成为 JavaScript 渲染函数的代码。
+> - **运行时**：用来创建 Vue 实例、渲染并处理虚拟 DOM 等的代码。基本上就是除去编译器的其它一切。
+> - **UMD**：UMD 版本可以通过 `<script>` 标签直接用在浏览器中。jsDelivr CDN 的 <https://cdn.jsdelivr.net/npm/vue> 默认文件就是运行时 + 编译器的 UMD 版本 (`vue.js`)。
+> - **CommonJS**：CommonJS 版本用来配合老的打包工具比如 [Browserify](http://browserify.org/) 或 [webpack 1](https://webpack.github.io/)。这些打包工具的默认文件 (`pkg.main`) 是只包含运行时的 CommonJS 版本 (`vue.runtime.common.js`)。
+> - **ES Module**：ES module 版本用来配合现代打包工具比如 [webpack 2](https://webpack.js.org/) 或 [Rollup](https://rollupjs.org/)。这些打包工具的默认文件 (`pkg.module`) 是只包含运行时的 ES Module 版本 (`vue.runtime.esm.js`)。
+>
+> ### 运行时 + 编译器 vs. 只包含运行时
+>
+> 如果你需要在客户端编译模板 (比如传入一个字符串给 `template` 选项，或挂载到一个元素上并以其 DOM 内部的 HTML 作为模板)，就将需要加上编译器，即完整版：
+>
+> ```javascript
+> // 需要编译器
+> new Vue({
+>   template: '<div>{{ hi }}</div>'
+> })
+> 
+> // 不需要编译器
+> new Vue({
+>   render (h) {
+>     return h('div', this.hi)
+>   }
+> })
+> ```
+>
+> 当使用 `vue-loader` 或 `vueify` 的时候，`*.vue` 文件内部的模板会在构建时预编译成 JavaScript。你在最终打好的包里实际上是不需要编译器的，所以只用运行时版本即可。
+>
+> ....
+
+---
+
+回归之前的问题，之所以之前渲染失败，是因为默认`import` 的是**[运行时版本]**。
+
+这样解决方案也就明白了，`import`改用**[构建时+运行时]**版本，按照上表，我们用的是`ES6 module`的模块引入方式，则用`vue.esm.js`
+
+**./src/main.js**
+
+```diff
+- import Vue from 'vue';
++ import Vue from 'vue/dist/vue.esm'
+  import hello from './scripts/hello.vue';
+  
+  new Vue({
+      el: '#hello',
+      render: h => h(hello)
+  });
+  
+  Vue.component("test",{
+      template: '<span> test - span </span>'
+  });
+  new Vue({
+      el: '#test',
+      components: {
+          "hello": hello
+      },
+      data: {
+          message : 'from test - message : hello vue! hello world!'
+      }
+  });
+```
+
+再次运行`npm run build`
+
+查看测试结果：
+
+![](images/img5.png)
+
+**哈，成功渲染！**
+
+----
+
+> 官网也对webpack这个整合使用的情况给了配置解决方案：
+>
+> 在webpack的配置文件中添加别名配置
+>
+> #### webpack
+>
+> ```
+> module.exports = {
+>   // ...
+>   resolve: {
+>     alias: {
+>       'vue$': 'vue/dist/vue.esm.js' // 用 webpack 1 时需用 'vue/dist/vue.common.js'
+>     }
+>   }
+> }
+> ```
+
+---
+
+**部分扩展内容**
+
+部分内容来自[知乎-Think in Vue - Mario](https://zhuanlan.zhihu.com/p/25486761)
+
+我们先来看一下Vue生命周期中关于渲染部分：
+
+![](images/img6.png)
+
+可以看到`vue`渲染方式是将`template`模板转换成 `render function`执行后再在与`el`元素绑定渲染操作。
+
+如果没有`template` 则先将`el`元素的`outerHTML`当做`template`模板再进行转换成`render`方法
+
+可以看出上述渲染所依赖的内容和优先级依次为`render`,`template`,`outerHTML`
+
+> 独立构建支持`template`选项，而运行时只支持`render`选项
+
+下面我们通过创建三个不同的 Vue 实例来验证一下：
+
+E.g.
+
+> html 页面 body 内容：
+>
+> ```html
+> <div class="app1">{{msg}}</div>
+> <div class="app2">{{msg}}</div>
+> <div class="app3">{{msg}}</div>
+> ```
+>
+> 分别创建 Vue 实例的代码：
+>
+> ```javascript
+> new Vue({
+>   el: '.app1',
+>   data: {
+>     msg: 'Hello, Vue.js.'
+>   },
+>   template: '<div>Hello, world.</div>',
+>   render: (h) => h('div', {}, 'Hi, there.')
+> })
+> 
+> new Vue({
+>   el: '.app2',
+>   data: {
+>     msg: 'Hello, Vue.js.'
+>   },
+>   template: '<div>Hello, world</div>'
+> })
+> 
+> new Vue({
+>   el: '.app3',
+>   data: {
+>     msg: 'Hello, Vue.js.'
+>   }
+> })
+> ```
+>
+> 结果如下：
+> ![](images/img7.jpg)
+
+
 

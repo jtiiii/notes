@@ -1,12 +1,12 @@
-#Docker 容器的建立
+# Docker 容器的建立
 
 [TOC]
 
 
 
-##1 容器创建、运行和删除
+## 1 容器创建、运行和删除
 
-###docker create
+### docker create
 
 创建容器
 
@@ -104,7 +104,7 @@ Options:
 
 
 
-###docker start
+### docker start
 
 启动容器
 
@@ -124,7 +124,7 @@ Options:
 
 
 
-###docker run
+### docker run
 
 创建并启动容器（融合了create 和 start）,通常创建容器直接使用docker run
 
@@ -228,7 +228,7 @@ Dockor run 的参数基本都是create和start的集合
 
 
 
-###docker rm
+### docker rm
 
 删除容器
 
@@ -247,9 +247,9 @@ Options:
 
 
 
-##2 容器重命名
+## 2 容器重命名
 
-###docker rename
+### docker rename
 
 容器重命名
 
@@ -293,7 +293,7 @@ Options:
 Example:
 
 ```Bash
-#docker exec -it CONTAINER /bin/bash
+$docker exec -it CONTAINER /bin/bash
 ```
 
 > -it 即时没有连接也要保证STDIN开启,并且分配一个伪tty终端
@@ -326,12 +326,12 @@ $./docker_in CONTAINER
 
 
 
-##4 在运行的容器中执行命令
+## 4 在运行的容器中执行命令
 
 ### docker exec
 
 ```bash
-#docker exec --help
+$docker exec --help
 
 Usage:	docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
 
@@ -378,3 +378,4 @@ Options:
 ```
 
 > docker ps 是查看正在运行的容器， docker ps -a是查看所有容器
+

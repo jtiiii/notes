@@ -155,3 +155,56 @@ $tar -czvf pack.tar.gz ~/pack
 $tar -xzvf pack.tar.gz
 ```
 
+
+
+## find 查找
+
+使用`find`命令查找文件或文件夹
+
+`find <path> [option]`
+
+**option**
+
++ `-name <text>` 按照名称匹配查找
+
+  > E.g. `find ./ -name "config*"` 在当前目录下查找前缀名为`config`的文件
+
++ `-type <type>` 根据文件类型查找
+
+  **type**
+
+  + `f` 普通文件
+  + `l` 符号链接
+  + `d` 目录/文件夹
+  + `b` 块设备
+  + `s` 套接字
+  + `p` Fifo
+
+  > E.g. `find ./ -type d -name "member"` 在当前目录下查找名为member的目录/文件夹
+
++ `-size <size unit>` 根据文件大小查找
+
+  **unit**
+
+  + `b` 512bit
+  + `c` 字节
+  + `w` 2倍 c
+  + `k` 1024倍 c
+  + `M` 1024倍 K
+  + `G` 1024倍 M
+
+  > E.g.
+  >
+  > 在当前目录下例如查找文件大小为**603019898(bit)**
+  >
+  > ```shell
+  > find ./ -size 603019898c
+  > find ./ -size 301509949w
+  > #-size 方法不接受小数点的，查找时会以向上方式取整
+  > find ./ -size 588887k #588886.619140625
+  > find ./ -size 575M #575.0845890045
+  > ```
+
++ `-delete` 删除匹配的文件
+
++ `-empty` 匹配空文件

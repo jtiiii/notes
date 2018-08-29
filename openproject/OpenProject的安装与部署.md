@@ -74,9 +74,71 @@ $docker run -d -p 8080:80 --name OpenProject -e SECRET_KEY_BASE=secret openproje
   # -e DATABASE_URL="postgres://user:password@host:5432/dbname?pool=10&encoding=unicode&timeout=5000&reconnect=true" \
   ```
 
-  > PS: 不过我个人 Mysql8.0 配置倒是失败了，可能是数据库太新的缘故吧...
+  > PS: 经测试Mysql 5.7版本可用
+  >
+  > 不过我个人 Mysql8.0 配置倒是失败了，可能是数据库太新的缘故吧...
 
-## OpenProject 部分配置
+
+
+## 使用 yum 安装和部署
+
+[官网教程](https://www.openproject.org/download-and-installation/#installation)
+
+该文所使用的系统环境：`CentOS 7` 且所有步骤均在 `root` 操作环境下。
+
+### 安装
+
+```shell
+#下载安装 OpenProject 的 yum 仓库配置
+$wget -O /etc/yum.repos.d/openproject-ce.repo \
+  https://dl.packager.io/srv/opf/openproject-ce/stable/7/installer/el/7.repo
+#安装 OpenProject
+$yum install -y openproject
+```
+
+### 配置
+
+上述安装完之后，系统会有`openproject`命令
+
+```shell
+$openproject
+```
+
++ `openproject configure`  - 进入配置向导
+
++ `openproject reconfigure` - 进入配置向导重新配置
+
++ `openproject config` - 单个配置命令
+
+  + `openproject config:get VAR` - 查看某个配置
+
+    > E.g.
+    >
+    > `openproject config:get DATABASE_URL` 查看数据库地址
+    >
+    > `openproject config:get PORT` 查看端口号
+
+  + `openproject config:set VAR=VALUE` - 读取某个配置
+
++ `openproject run COMMAND [option]` - 使用 `openproject` 用户执行命令
+
+  > E.g.
+  >
+  > `openproject run env` 查看 `openprojec` 用户下的环境变量
+
++ `openproject restart` - 重启
+
++ `openproject scale TYPE=NUM`
+
++ `openproject logs [--tail|-n NUMBER]` - 查看日志
+
+`OpenProject` 只能使用 `MySql` 和 `PostgreSQL` 数据库，但 `OpenProject` 的配置向导目前只支持自动安装 `mysql` 。
+
+//TODO 暂未完成
+
+
+
+# 部分页面配置
 
 + 第一次安装初始化的 `OpenProject` 的 **管理员** 的用户名和密码均为 `admin` 
 

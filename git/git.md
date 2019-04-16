@@ -218,3 +218,43 @@ $git reset HEAD [file-path]
 $git reset --hard [commit-id]
 ```
 
+
+
+
+
+# Git 分支管理
+
+## git checkout
+
+检出——创建/切换分支
+
+`git checkout [options] <branchName>`
+
+**options**
+
++ `-b` 创建并切换新分支
+
+  > ```bash
+  > #创建并切换到名为issu34分支
+  > $git checkout -b issu34
+  > 
+  > #相当于执行了下面两条命令
+  > #$git branch issu34
+  > #$git checkout issu34
+  > ```
+
+
+
+## git branch
+
+分支管理
+
+`git branch [options] <branchName>`
+
+**options**
+
++ `--list` 查看分支列表
++ `--all` 查看所有分支列表（包括远程分支）
++ `-v` 带有hash信息的查看分支列表
++ 
+

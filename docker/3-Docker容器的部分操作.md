@@ -379,3 +379,8 @@ Options:
 
 > docker ps 是查看正在运行的容器， docker ps -a是查看所有容器
 
+
+
+## 6 查找docker 镜像
+
+### docker search [image]

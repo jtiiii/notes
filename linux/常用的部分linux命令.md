@@ -4,6 +4,14 @@
 
 
 
+## w 查看在线用户
+
+`w`
+
+
+
+
+
 ## man 查看指令文档手册
 
 `man [option] [name]`
@@ -66,7 +74,11 @@ E.g.
 
 ## cp 复制文件
 
-`cp [sourceFile] [targetFile]`
+`cp [option] [sourceFile] [targetFile]`
+
+**option**
+
++ `-r` 递归复制
 
 E.g.
 

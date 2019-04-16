@@ -34,7 +34,7 @@ SpringBoot就是为了简化各类与spring框架结合的重复与繁琐的配�
 
 - Provide production-ready features such as metrics, health checks and externalized configuration
 
-  <!— 暂时不知道如何解释  —>
+  提供为上生产环境做的准备的功能，比如健康度检查，外部配置等。
 
 - Absolutely **no code generation** and **no requirement for XML** configuration
 

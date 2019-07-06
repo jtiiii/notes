@@ -52,7 +52,7 @@ $docker run --privileged --name mysql -v /root/mysql:/mysql-data -p 3306:3306 ce
 > 下载mysql8.0的仓库文件
 >
 > ```shell
-> $wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
+> $wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
 > ```
 >
 > 安装仓库文件

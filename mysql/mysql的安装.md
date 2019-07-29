@@ -11,12 +11,16 @@
 首先是配置docker容器,其实很简单
 
 ```shell
-$docker run --privileged --name mysql -v /root/mysql:/mysql-data -p 3306:3306 centos /usr/sbin/init
+#$docker run --privileged --name mysql -v /root/mysql:/mysql-data -p 3306:3306 centos /usr/sbin/init
+# 上述方法已经不适用了。直接使用mysql 的docker.io上的容器更好
+$docker run --name mysql -p 39001:3306 -v /root/mysql-database/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD={yourPassword} -d mysql:{version}
 ```
 
 > **option**
 >
 > + **`--privileged`** 解放docker容器内的root权限(没有该配置的话，容器内root用户还是部分权限被限制住)
+>
+>   <font color="red">注意，`--privilledged` 非常不适合使用在生产环境上. 因为会可能会产生`docker: Error response from daemon: cgroups: cannot find cgroup mount destination: unknown.`错误，`cgroups`是宿主机系统级别的资源，被`--privilleged`的docker容器强行占用，导致无法产生新的docker容器</font>
 >
 > + **`--name <name>`** 定义容器别名（随意）
 >
@@ -34,6 +38,10 @@ $docker run --privileged --name mysql -v /root/mysql:/mysql-data -p 3306:3306 ce
 >
 > + `docker exec -it <container> /bin/bash` 不知道为啥，使用`docker attach`容易假死连接不进去，还是得靠`docker exec`。
 > + `docker start | stop | restart  <container>` 依次为启动，停止，重启容器
+> + `-e` 设置环境变量
+>   + `MYSQL_ROOT_PASSWORD`: root 初始默认用户密码设置
+
+
 
 
 
@@ -145,7 +153,8 @@ $systemctl stop mysqld.service
 > [ERROR] [MY-010273] [Server] Could not create unix socket lock file /var/lib/mysql/mysql.sock.lock.
 > ```
 >
-> 
+
+
 
 ## 部分细节
 
@@ -162,12 +171,5 @@ $systemctl stop mysqld.service
   ```mysql
   ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'root';
   ```
-
-  
-
-
-
-
-
 
 

@@ -222,4 +222,5 @@ module.exports = {
 
 ![](images/img6.png)
 
-一样是可以用浏览器开发者同居进行断点debug的。
+一样是可以用浏览器开发者模式同时进行断点debug的。
+

@@ -228,3 +228,24 @@ $tar -xzvf pack.tar.gz
 + `-delete` 删除匹配的文件
 
 + `-empty` 匹配空文件
+
+
+
+## usermod 调整用户
+
++ `-a` append追加
++ `-G` 用户组
+
+
+
+e.g.
+
+```bash
+#将用户“转移”到其他组
+$usermod -G [group] [user]
+#将用户添加到其他组
+$usermod -a -G [group] [user]
+```
+
+
+

@@ -384,3 +384,11 @@ Options:
 ## 6 查找docker 镜像
 
 ### docker search [image]
+
+
+
+## 7 登陆，上传镜像
+
+### docker login
+
+### docker push [image]
